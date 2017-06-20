@@ -1,0 +1,22 @@
+{
+  "name": "webhook_donm",
+  "version": "1.0.0",
+  "description": "webhook para chatbot DONM",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "setWelcome": "node setWelcome.js"
+  },
+  "author": "Edgard",
+  "dependencies": {
+    "apiai": "^4.0.2",
+    "async": "^2.0.0-rc.5",
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "node-fetch": "^1.5.1",
+    "node-uuid": "^1.4.7",
+    "node-wit": "^3.3.0",
+    "request": "^2.71.0"
+  }
+}

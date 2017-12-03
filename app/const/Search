@@ -1,0 +1,16 @@
+/*function Search() {
+	this._user_id = null; //só um por usuário
+	this._type = null; //pega no retorno do click do botão de projetos ou de metas
+	this._theme = null; //pega no retorno do api.ai da intent y
+	this._distritct = null; //pega no retorno do api.ai da intent x
+	this._management = null; //pega no retorno do click do botão de gestão atual ou gestão passada
+}
+
+module.export = function() {
+	return Search;
+}*/
+
+
+//Devo criar uma tabela search no bd
+//	- user_id deve ser unique
+//  - 

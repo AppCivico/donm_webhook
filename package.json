@@ -5,18 +5,24 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "setWelcome": "node setWelcome.js"
+    "start": "node app/index.js"
   },
   "author": "Edgard",
   "dependencies": {
     "apiai": "^4.0.2",
     "async": "^2.0.0-rc.5",
     "body-parser": "^1.15.1",
+    "dotenv": "^4.0.0",
     "express": "^4.13.4",
     "node-fetch": "^1.5.1",
     "node-uuid": "^1.4.7",
-    "node-wit": "^3.3.0",
-    "request": "^2.71.0"
+    "pg": "^6.4.1",
+    "pg-hstore": "^2.3.2",
+    "request": "^2.71.0",
+    "sequelize": "^4.4.0",
+    "sequelize-cli": "^2.7.0"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0"
   }
 }

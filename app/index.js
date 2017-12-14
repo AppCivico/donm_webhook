@@ -2,25 +2,20 @@
 'use strict';
 
 require('dotenv').config();
-
 const app = require('./server');
-
 const async = require('async');
 const request = require('request');
 const HashMap = require('hashmap');
-
-const config = require('./config');
 const MS = require('./dialog/messenger_actions');
 const api_ai = require('./dialog/api.ai_actions');
 const messenger_controller = require('./dialog/messenger_controller');
 
-const apiAiClient = require('apiai')(config.API_AI_TOKEN);
 
 // Messenger API parameters
-if (!config.FB_PAGE_ID) {
+if (!process.env.FB_PAGE_ID) {
     throw new Error('missing FB_PAGE_ID');
 }
-if (!config.FB_PAGE_TOKEN) {
+if (!process.env.FB_PAGE_TOKEN) {
     throw new Error('missing FB_PAGE_TOKEN');
 }
 
@@ -33,7 +28,7 @@ const getFirstMessagingEntry = (body) => {
             Array.isArray(body.entry) &&
             body.entry.length > 0 &&
             body.entry[0] &&
-            body.entry[0].id === config.FB_PAGE_ID &&
+            body.entry[0].id === process.env.FB_PAGE_ID &&
             body.entry[0].messaging &&
             Array.isArray(body.entry[0].messaging) &&
             body.entry[0].messaging.length > 0 &&
@@ -47,10 +42,10 @@ const getFirstMessagingEntry = (body) => {
 // Webhook setup
 app.get('/webhook', (req, res) => {
     console.log('validação ok...');
-    if (!config.FB_VERIFY_TOKEN) {
+    if (!process.env.FB_VERIFY_TOKEN) {
         throw new Error('missing FB_VERIFY_TOKEN');
     }
-    if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === config.FB_VERIFY_TOKEN) {
+    if (req.query['hub.mode'] === 'subscribe' && req.query['hub.verify_token'] === process.env.FB_VERIFY_TOKEN) {
         res.status(200).send(req.query['hub.challenge']);
     } else {
         res.sendStatus(400);
@@ -63,8 +58,7 @@ app.post('/webhook', function(req, res) {
     var data = req.body;
     const messaging = getFirstMessagingEntry(data);
 
-    //if (messaging && messaging.recipient.id === config.FB_PAGE_ID) {
-    if(data && data.object === 'page' && config.FB_PAGE_ID === messaging.recipient.id) {
+    if(data && data.object === 'page' && process.env.FB_PAGE_ID === messaging.recipient.id) {
         console.log('Index - Recebeu mensagem enviada pelo usuário...');
 
         data.entry.forEach(function(entry) {
@@ -112,52 +106,3 @@ app.post('/webhook', function(req, res) {
     }
     res.sendStatus(200);
 })
-
-
-
-
-
-
-
-
-
-
-//retorno sobre temperatura do Api.ai
-/*app.post('/test_api', function(req, res) {
-    console.log('****** /test_api');
-    //console.log("res: ", req);
-    //console.log("req: ", res);
-    console.log('****** /test_api');
-    if (req.body.result.action === 'temperatura') {
-        const imageName = req.body.result.parameters['temperatura'];
-    }
-})*/
-
-//retorno sobre temperatura do Api.ai
-/*app.post('/answer', function(req, res) {
-    console.log('****** /answer');
-
-    var action = req.body.result.action    
-    switch(action) {
-        case 'temperatura':
-            var parameters = req.body.result.parameters['temperatura'];
-            console.log("/answer/temperatura -> parameters: ", parameters);
-            break;
-        case 'set_district':
-            var parameters = req.body.result.parameters['district'];
-            console.log("/answer/set_district -> parameters: ", parameters);
-            //verifica distrito
-            //salva distrito no bd
-            //solicita tema
-            break;
-        case 'set_theme':
-            var parameters = req.body.result.parameters['theme'];
-            console.log("/answer/set_theme -> parameters: ", parameters);
-            //verifica tema
-            //salva tema no bd
-            //verifica se precisa pedir algum dado (type (meta ou projeto), gestão (passada ou atual), distrito, tema)
-            break;
-    }
-
-
-})*/

@@ -1,6 +1,5 @@
 'use strict';
 
-const config = require('../config');
 const request = require('request');
 const HashMap = require('hashmap');
 const MS = require('./messenger_actions');
@@ -12,10 +11,7 @@ const actions = require('../const/constants_action');
 const cities = require('../const/cities');
 const themes = require('../const/theme');
 const districts = require('../const/district');
-const sleep = require('./sleepMessenger');
 const ResMS = require('./responseMessenger');
-const Verify = require('./verify');
-
 
 
 var options = {

@@ -1,11 +1,10 @@
 'use strict';
 
 const request = require('request');
-const config = require('../config');
+
 
 module.exports = {
 
-	//Lógica no recebimento de uma mensagem de texto....
 	getDonm(senderId, url, callback) {
 
         request({
@@ -23,7 +22,6 @@ module.exports = {
 
 	getPastGoalId(senderId, id, callback) {
 	    console.log("net.getPastGoalId -> goalId: ", id);
-
 	  	request({
 		    uri: "https://deolhonasmetas.org.br/api/public/goals/".concat(id),
 		    qs: {
@@ -43,7 +41,6 @@ module.exports = {
 	getPastProjectsId(senderId, id, callback) {
 	    console.log("net.getPastProjectsId -> projectId: ", id);
 	    var url = "https://deolhonasmetas.org.br/api/projects/".concat(id);
-	    console.log("net.getPastProjectsId -> url: ", url);
 
 	  	request({
 		    uri: "https://deolhonasmetas.org.br/api/projects/".concat(id),
@@ -65,7 +62,6 @@ module.exports = {
 	  	})
 	},
 
-
 	getPastGoals(senderId, theme, district, callback) {
 	    console.log("net.getPastGoals -> theme: ", theme, " - distict: ", district);
 
@@ -78,11 +74,8 @@ module.exports = {
 		    },
 		    method: 'GET',
 	  	}, function(error, response, body) {
-	  		//console.log("return - statusCode: ", response.statusCode);
-	  		//console.log("return - error: ", error);
 	    	if (!error && response.statusCode == 200) {
 	    		var result = JSON.parse(body);
-	    		//console.log("return - result: ", result);
 	            callback(null, result, senderId);
 	        } else {
 	            callback(error, null, senderId);
@@ -111,13 +104,12 @@ module.exports = {
 	  	})
 	},
 
-
 	solicitationFacebookUserInfo(senderId, callback) {
 		request({
 		    uri: "https://graph.facebook.com/v2.6/".concat(senderId),
 		    qs: {
 		    	fields: 'first_name,last_name,profile_pic,locale,timezone,gender',
-		    	access_token: config.FB_PAGE_TOKEN
+		    	access_token: process.env.FB_PAGE_TOKEN
 		    },
 		    method: 'GET',
 		}, function(error, response, body) {		    
@@ -131,11 +123,3 @@ module.exports = {
 	}
 
 }
-
-
-/*
-http://www.deolhonasmetas.org.br/api/projects?type_id=4&region_id=648&api_key=Rn2qUusiJVkud7JXyaNeMZOn9RS48LMznPB5vbiM26X7R7Pb4nTBg2EXNfe3n4hHxJwhkXNPCDN8ruVt3DQEWv4sy6f2jQGzr9Ja5QgJg01A204eCaPBIwRzKcWL5RlX
-type_id:4 (tema ou objects)
-region_id:599 (distrito ou region)
-
-*/

@@ -1,10 +1,9 @@
 'use strict';
 
-const config = require('../config');
 const MS = require('./messenger_actions');
 const request = require('request');
 const apiAi_controller = require('./apiAi_controller');
-const apiAiClient = require('apiai')(config.API_AI_TOKEN);
+const apiAiClient = require('apiai')(process.env.API_AI_TOKEN);
 
 module.exports = {
 

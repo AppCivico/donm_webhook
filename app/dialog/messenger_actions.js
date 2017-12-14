@@ -1,6 +1,5 @@
 'use strict';
 
-const config = require('../config');
 const request = require('request');
 const payloads = require('../const/constants_payload');
 const urls = require('../const/constants_url');
@@ -362,7 +361,7 @@ function callSendAPI(messageData) {
 	console.log(messageData);
 	  request({
 	    uri: 'https://graph.facebook.com/v2.6/me/messages',
-	    qs: {access_token: config.FB_PAGE_TOKEN},
+	    qs: {access_token: process.env.FB_PAGE_TOKEN},
 	    method: 'POST',
 	    json: messageData
 	  }, function(error, response, body) {
@@ -384,7 +383,7 @@ function createMenuPersistent(messageData) {
 	console.log(messageData);
 	  request({
 	    uri: 'https://graph.facebook.com/v2.6/me/messenger_profile',
-	    qs: {access_token: config.FB_PAGE_TOKEN},
+	    qs: {access_token: process.env.FB_PAGE_TOKEN},
 	    method: 'POST',
 	    json: messageData
 	  }, function(error, response, body) {
@@ -407,7 +406,7 @@ function solicitationUserInfo(senderId) {
 	    uri: "https://graph.facebook.com/v2.6/me/".concat(senderId),
 	    qs: {
 	    	fields: 'first_name,last_name,profile_pic,locale,timezone,gender',
-	    	access_token: config.FB_PAGE_TOKEN
+	    	access_token: process.env.FB_PAGE_TOKEN
 	    },
 	    method: 'GET',
 	  }, function(error, response, body) {

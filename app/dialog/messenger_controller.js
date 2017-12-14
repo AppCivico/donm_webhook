@@ -1,6 +1,6 @@
 'use strict';
 
-const config = require('../config');
+//const config = require('../config');
 const request = require('request');
 const HashMap = require('hashmap');
 const MS = require('./messenger_actions');
@@ -263,12 +263,7 @@ module.exports = {
                 net.getPastProjectsId(senderId, postback.title, function(error, data) {
                     if(data) {
                         console.log("Busca de projeto por id com sucesso");
-                        console.log("***** PROJETO");
-                        //console.log(data);
-                        //console.log("*****");
-
                         mCurrent.set(senderId, data);
-
                         descriptionProjetct(senderId, data);
                     } else {
                         console.log("Erro ao buscar meta por id -> error: ", error);

@@ -186,23 +186,6 @@ module.exports = {
 		}
 
 	},
-
-	/*trataActionTemperatura() {
-		console.log('## apiAi_controller.trataActionTemperatura...');
-
-	    var actionTemperatura = parameters.temperatura;
-	    switch(actionTemperatura) {
-	        case 'Aumente':
-	            console.log('Ok, vamos aumentar a temperatura');
-	            break;
-	        case 'Diminua': 
-	            console.log('Ok, vamos aumentar a temperatura');
-	            break;
-	        default:
-	            console.log('trataActionTemperatura defaul response');
-	    }
-	}*/
-
 }
 
 

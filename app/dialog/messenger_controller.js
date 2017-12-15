@@ -240,16 +240,8 @@ module.exports = {
                 ResMS.message(senderId, text_intro);
                 net.getPastGoalId(senderId, postback.title, function(error, data) {
                     if(data) {
-                        console.log("Busca de meta por id com sucesso");
-                        console.log("***** GOAL");
-                        //console.log(data);
-                        //console.log("*****");
-
                         mCurrent.set(senderId, data);
-
-                        ResMS.sendMessageDescriptionGoal(senderId, mCurrent.get(senderId).description);
-                        var text = "Caso queira, também posso lhe dar mais informações sobre a meta. Como os projetos que compoẽ ela, o status da execução, o orçamento, ou até mesmo comparar essa meta com outras. O que deseja saber?";
-                        ResMS.optionsPastManagementGoal(senderId, mCurrent.get(senderId), text);
+                        descriptionGoal(senderId, mCurrent);
                     } else {
                         console.log("Erro ao buscar meta por id -> error: ", error);
                     }
@@ -270,7 +262,6 @@ module.exports = {
                     }
                 });
                 break;
-
 
 
             default:
@@ -330,6 +321,17 @@ function descriptionProjetct(senderId, project) {
         var text = "Caso queira, também posso lhe dar mais informações sobre o projeto. Como status da execução, o orçamento, ou até mesmo comparar esse projeto com outras. O que deseja saber?";
         ResMS.optionsPastManagementProject(senderId, project, text);
     }
+}
+
+function descriptionGoal(senderId, mCurrent) {
+    if(mCurrent.get(senderId).description.length > 639) {
+        let text = mCurrent.get(senderId).description.substring(0, 636).concat("...");
+        ResMS.sendMessageDescriptionGoal(senderId, text);
+    } else {
+        ResMS.sendMessageDescriptionGoal(senderId, mCurrent.get(senderId).description);
+    }
+    var text = "Caso queira, também posso lhe dar mais informações sobre a meta. Como os projetos que compoẽ ela, o status da execução, o orçamento, ou até mesmo comparar essa meta com outras. O que deseja saber?";
+    ResMS.optionsPastManagementGoal(senderId, mCurrent.get(senderId), text);
 }
 
 

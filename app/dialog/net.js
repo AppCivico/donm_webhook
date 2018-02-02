@@ -23,7 +23,7 @@ module.exports = {
 	getPastGoalId(senderId, id, callback) {
 	    console.log("net.getPastGoalId -> goalId: ", id);
 	  	request({
-		    uri: "https://deolhonasmetas.org.br/api/public/goals/".concat(id),
+		    uri: "https://2013.deolhonasmetas.org.br/api/public/goals/".concat(id),
 		    qs: {
 		    	api_key: 'Rn2qUusiJVkud7JXyaNeMZOn9RS48LMznPB5vbiM26X7R7Pb4nTBg2EXNfe3n4hHxJwhkXNPCDN8ruVt3DQEWv4sy6f2jQGzr9Ja5QgJg01A204eCaPBIwRzKcWL5RlX',
 		    },
@@ -40,10 +40,8 @@ module.exports = {
 
 	getPastProjectsId(senderId, id, callback) {
 	    console.log("net.getPastProjectsId -> projectId: ", id);
-	    var url = "https://deolhonasmetas.org.br/api/projects/".concat(id);
-
 	  	request({
-		    uri: "https://deolhonasmetas.org.br/api/projects/".concat(id),
+		    uri: "https://2013.deolhonasmetas.org.br/api/projects/".concat(id),
 		    qs: {
 		    	api_key: 'Rn2qUusiJVkud7JXyaNeMZOn9RS48LMznPB5vbiM26X7R7Pb4nTBg2EXNfe3n4hHxJwhkXNPCDN8ruVt3DQEWv4sy6f2jQGzr9Ja5QgJg01A204eCaPBIwRzKcWL5RlX',
 		    },
@@ -66,7 +64,7 @@ module.exports = {
 	    console.log("net.getPastGoals -> theme: ", theme, " - distict: ", district);
 
 	  	request({
-		    uri: "https://deolhonasmetas.org.br/api/public/goals",
+		    uri: "https://2013.deolhonasmetas.org.br/api/public/goals",
 		    qs: {
 		    	api_key: 'Rn2qUusiJVkud7JXyaNeMZOn9RS48LMznPB5vbiM26X7R7Pb4nTBg2EXNfe3n4hHxJwhkXNPCDN8ruVt3DQEWv4sy6f2jQGzr9Ja5QgJg01A204eCaPBIwRzKcWL5RlX',
 		    	type_id: theme,
@@ -87,7 +85,7 @@ module.exports = {
 	    console.log("net.getGoalsTheme -> theme: ", theme, " - distict: ", district);
 
 	  	request({
-		    uri: "https://deolhonasmetas.org.br/api/public/projects",
+		    uri: "https://2013.deolhonasmetas.org.br/api/public/projects",
 		    qs: {
 		    	api_key: 'Rn2qUusiJVkud7JXyaNeMZOn9RS48LMznPB5vbiM26X7R7Pb4nTBg2EXNfe3n4hHxJwhkXNPCDN8ruVt3DQEWv4sy6f2jQGzr9Ja5QgJg01A204eCaPBIwRzKcWL5RlX',
 		    	type_id: theme,
@@ -99,6 +97,43 @@ module.exports = {
 	    		var result = JSON.parse(body);
 	            callback(null, result, senderId);
 	        } else {
+	            callback(error, null, senderId);
+	        }
+	  	})
+	},
+
+	getCurrentProjects(senderId, theme, callback) {
+	    console.log("net.getCurrentProjects -> theme: ", theme);
+
+	  	request({
+		    uri: "https://api-2017.deolhonasmetas.org.br/api/project",
+		    qs: {
+		    	topic: theme,
+		    },
+		    method: 'GET',
+	  	}, function(error, response, body) {
+	    	if (!error && response.statusCode == 200) {
+	    		var result = JSON.parse(body);
+	            callback(null, result, senderId);
+	        } else {
+	            callback(error, null, senderId);
+	        }
+	  	})
+	},
+
+	getCurrentProjectsId(senderId, id, callback) {
+	  	request({
+		    uri: "https://api-2017.deolhonasmetas.org.br/api/project/".concat(id),
+		    method: 'GET',
+	  	}, function(error, response, body) {
+	  		console.log("Retorno projeto - statusCode: ", response.statusCode);
+	  		console.log("Retorno projeto - error: ", error);
+	    	if (!error && response.statusCode == 200) {
+	    		var result = JSON.parse(body);
+	    		console.log("success");
+	            callback(null, result, senderId);
+	        } else {
+	        	console.log("failed");
 	            callback(error, null, senderId);
 	        }
 	  	})

@@ -65,7 +65,8 @@ module.exports = {
             //Reinicia o dialogo, apresentando as primeiras opções de dialogo
             case payloads.PBK_RESTART_DIALOGS:
                 console.log("## PBK_RESTART_DIALOGS -> reiniciar o diálogo"); //OK
-                ResMS.restartDialogs(senderId);
+                var text = "Ok, você gostaria de ver como ficou o Plano de Metas de 2013, como esta o atual Plano de Metas ou prefere conhecer mais sobre a Lei de Metas?";
+                ResMS.restartDialogs(senderId, text);
                 break;
 
 
@@ -147,7 +148,7 @@ module.exports = {
             //** METAS **//
             //Fluxo "Conhecer Gestão passada" -> Metas
             case payloads.PBK_PAST_GOAL:
-                console.log("## PBK_PAST_GOAL -> Conhecer as metas"); //OK
+                console.log("## PBK_PAST_GOAL -> Conhecer as metas da gestão passada"); //OK
                 api_ai.sendApiAi(senderId, 'Conhecer as metas', 'botcube_co');
                 break;
 
@@ -161,6 +162,9 @@ module.exports = {
                     ResMS.message(senderId, text);
                     var text = "O que mais você gostaria de saber?";
                     ResMS.optionsPastManagementGoal(senderId, mCurrent.get(senderId), text);
+                } else {
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar a meta. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer as metas', 'botcube_co');
                 }
                 break;
             //
@@ -171,6 +175,9 @@ module.exports = {
                     ResMS.message(senderId, text);
                     var text = "O que mais você gostaria de saber?";
                     ResMS.optionsPastManagementGoal(senderId, mCurrent.get(senderId), text);
+                } else {
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar a meta. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer as metas', 'botcube_co');
                 }
                 break;
             //
@@ -181,6 +188,9 @@ module.exports = {
                     ResMS.message(senderId, text);
                     var text = "O que mais você gostaria de saber?";
                     ResMS.optionsPastManagementGoal(senderId, mCurrent.get(senderId), text);
+                } else {
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar a meta. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer as metas', 'botcube_co');
                 }
                 break;
             //
@@ -190,7 +200,10 @@ module.exports = {
                     net.getPastGoals(senderId, null, null, function(error, data) {
                         createMessageCompareGoals(senderId, data.goals);
                     });
-                } 
+                } else {
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar a meta. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer as metas', 'botcube_co');
+                }
                 break;
             
 
@@ -208,7 +221,10 @@ module.exports = {
                     ResMS.message(senderId, text);
                     var text = "O que mais você gostaria de saber?";
                     ResMS.optionsPastManagementProject(senderId, mCurrent.get(senderId), text);
-                } 
+                } else {
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar o projeto. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer os projetos', 'botcube_co');
+                }
                 break;
             //usuário clicou em execução do projeto
             case payloads.PBK_PROJECT_EXECUTION:
@@ -218,19 +234,23 @@ module.exports = {
                     ResMS.message(senderId, text);
                     var text = "O que mais você gostaria de saber?";
                     ResMS.optionsPastManagementProject(senderId, mCurrent.get(senderId), text);
+                } else {
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar o projeto. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer os projetos', 'botcube_co');
                 }
                 break;
-            //usuário clicou em comprar meta
+            //usuário clicou em comprar projetos
             case payloads.PBK_COMPARE_PROJECTS:
-                console.log("## PBK_COMPARE_PROJECTS -> Conhecer os projetos"); //OK
+                console.log("## PBK_COMPARE_PROJECTS -> Comparar os projetos"); //OK
                 if(mCurrent.get(senderId)) {
                     net.getPastProjects(senderId, null, mCurrent.get(senderId).region.id, function(error, data) {
                         createMessageCompareProjects(senderId, data.projects);
                     });
-                } 
+                } else {
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar o projeto. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer os projetos', 'botcube_co');
+                }
                 break;
-
-
 
             /** SELEÇÃO DE  METAS OU PROJETOS **/
             //Usuário seleciona uma das metas resultantes de sua busca
@@ -266,9 +286,98 @@ module.exports = {
                         mCurrent.set(senderId, data);
                         descriptionProjetct(senderId, data);
                     } else {
-                        console.log("Erro ao buscar meta por id -> error: ", error);
+                        console.log("Erro ao buscar projeto por id -> error: ", error);
                     }
                 });
+                break;
+
+
+
+
+
+
+            //Fluxo "Conhecer Gestão atual"
+            case payloads.PBK_CURRENT_MANAGEMENT:
+                console.log("## PBK_CURRENT_MANAGEMENT -> Plano de metas da gestão atual"); //OK
+                api_ai.sendApiAi(senderId, 'Plano de metas da gestão atual', 'botcube_co');
+                break;
+
+            //** PROJETOS GESTÃO ATUAL **//
+            //Conhecer os projetos da gestão atual
+            case payloads.PBK_CURRENT_PROJECT:
+                console.log("## PBK_CURRENT_PROJECT -> Conhecer os projetos da gestão atual"); //OK
+                api_ai.sendApiAi(senderId, 'Conhecer os projetos da gestão atual', 'botcube_co');
+                break;
+
+            //Usuário seleciona uma das metas resultantes de sua busca
+            case payloads.PBK_CURRENT_MANAGEMENT_PROJECT_SELECTED:    
+                console.log("## PBK_CURRENT_MANAGEMENT_PROJECT_SELECTED -> Usuário selecionou um projeto"); //OK
+                console.log("title: ", postback.title);
+
+                net.getCurrentProjectsId(senderId, postback.title, function(error, data) {
+                    if(data) {
+                        console.log("Busca de projeto corrente por id com sucesso");
+                        mCurrent.set(senderId, data['project']);
+                        descriptionCurrentProjetct(senderId, mCurrent.get(senderId));
+                    } else {
+                        console.log("Erro ao buscar projeto corrente por id -> Error: ", error);
+                    }
+                });
+                break;
+
+
+
+            //usuário clicou em  projeto
+            case payloads.PBK_CURRENT_PROJETCT_SCENARIO:
+                console.log('## PBK_CURRENT_PROJETCT_SCENARIO -> apiAi_controller.optionsActionsApiAi'); //OK
+                if(mCurrent.get(senderId)) {
+                    ResMS.message(senderId, mCurrent.get(senderId).current_scenario);
+                    var text = "O que mais você gostaria de saber?";
+                    ResMS.optionsCurrentManagementProjectRestart(senderId, mCurrent.get(senderId), text, payloads.PBK_CURRENT_PROJETCT_SCENARIO);
+                } else {
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar o projeto. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer os projetos da gestão atual', 'botcube_co');
+                }
+                break;
+            //usuário clicou em  projeto
+            case payloads.PBK_CURRENT_PROJECT_EXPECTED_RESULTS:
+                console.log('## PBK_CURRENT_PROJECT_EXPECTED_RESULTS -> apiAi_controller.optionsActionsApiAi'); //OK
+                if(mCurrent.get(senderId)) {
+                    ResMS.message(senderId, mCurrent.get(senderId).expected_results);
+                    var text = "O que mais você gostaria de saber?";
+                    ResMS.optionsCurrentManagementProjectRestart(senderId, mCurrent.get(senderId), text, payloads.PBK_CURRENT_PROJECT_EXPECTED_RESULTS);
+                } else {
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar o projeto. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer os projetos da gestão atual', 'botcube_co');
+                }
+                break;
+            //usuário clicou em  projeto
+            case payloads.PBK_CURRENT_PROJECT_ACTIONS_LINE:
+                console.log('## PBK_CURRENT_PROJECT_ACTIONS_LINE -> apiAi_controller.optionsActionsApiAi'); //OK
+                if(mCurrent.get(senderId)) {
+                    var url = urls.URL_DONM_2017_PROJECTS.concat(mCurrent.get(senderId).slug);
+                    var text_action_line = "O projeto ".concat(mCurrent.get(senderId).id).concat(", possui ").concat(mCurrent.get(senderId).action_lines.length).concat(" Linhas de Ação definidas para atingir os resultados esperados. Você pode conhecer cada uma dessas Linhas de Ação através da plataforma DONM. ").concat(url);
+                    ResMS.message(senderId, text_action_line);
+                    var text = "O que mais você gostaria de saber?";
+                    ResMS.optionsCurrentManagementProjectRestart(senderId, mCurrent.get(senderId), text, payloads.PBK_CURRENT_PROJECT_ACTIONS_LINE);
+                } else {
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar o projeto. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer os projetos da gestão atual', 'botcube_co');
+                }
+                break;
+            //usuário clicou em  projeto
+            case payloads.PBK_CURRENT_PROJECT_GOALS_ASSOCIATION:
+                console.log('## PBK_CURRENT_PROJECT_GOALS_ASSOCIATION -> apiAi_controller.optionsActionsApiAi'); //OK
+                if(mCurrent.get(senderId)) {
+                    var description = createMessageCurrentProjectGoalsAssociation(mCurrent.get(senderId));
+                    ResMS.message(senderId, description);
+                    var text = "O que mais você gostaria de saber?";
+                    ResMS.optionsCurrentManagementProjectRestart(senderId, mCurrent.get(senderId), text, PBK_CURRENT_PROJECT_GOALS_ASSOCIATION);
+                } else {
+                    console.log("Não encontrou o projeto");
+                    ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar o projeto. Vou precisar colher as informações novamente.");
+                    api_ai.sendApiAi(senderId, 'Conhecer os projetos da gestão atual', 'botcube_co');
+                }
                 break;
 
 
@@ -650,3 +759,63 @@ function formatReal( int )
 
     return (neg ? '-'+tmp : tmp);
 }
+
+
+
+function descriptionCurrentProjetct(senderId, project) {
+    console.log("descriptionCurrentProjetct -> project: ", project);
+    //verifica se existe lat e long para capturar endereço correspondente ao ao lat e long
+    if(project && senderId) {
+        var description = "O projeto ".concat(project.id).concat(", objetiva: ").concat(project.description);
+        MS.textMessage(senderId, description);
+        var text = "Também posso lhe dar outras informações deste projeto, como a situação encontrada, os resultados esperados e a quantidade de linhas de ação para atingir os resultos e as metas associadas também.";
+        ResMS.optionsCurrentManagementProject(senderId, mCurrent.get(senderId), text);
+    } else {
+        console.log("descriptionCurrentProjetct -> projeto é null");
+    }
+}
+
+function createMessageCurrentProjectGoalsAssociation(project) {
+    var text;
+    
+    if(project.goals && project.goals.length == 1) 
+    {
+        text = "O projeto "
+            .concat(project.id)
+            .concat(", faz parte da Meta ")
+            .concat(project.goals[0].id)
+            .concat(" - ")
+            .concat(project.goals[0].title);
+
+        text = text
+                .concat(". \n\nVocê pode ver mais sobre a meta no www.deolhonasmetas.org.br/metas/")
+                .concat(project.goals[0].slug);
+    } 
+    else if(project.goals && project.goals.length > 1)
+    {
+        text = "O projeto "
+            .concat(project.id)
+            .concat(", faz parte das Metas:");
+
+        project.goals.forEach(function(goal) {
+            text = text 
+                .concat("\n")
+                .concat("- Meta ")
+                .concat(goal.id)
+                .concat(" - ")
+                .concat(goal.title);        
+        });
+
+        text = text
+                .concat(". \n\nVocê pode ver mais no www.deolhonasmetas.org.br/projetos/")
+                .concat(project.slug);
+    }
+    else
+    {
+        text = "Ops, infelizmente não encontrei metas associadas a esse projeto, assim que achar eu atualizo meus dados. Mas caso prefira, você também pode acessar a nossa plataforma ".concat(urls.URL_DONM_2017);
+    }
+
+    return text;
+}
+
+

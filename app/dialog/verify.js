@@ -1,4 +1,3 @@
-const MS = require('./messenger_actions');
 const SLEEP = require('./sleepMessenger');
 const CITY = require('../const/cities');
 const DISTRICT = require('../const/district');
@@ -6,6 +5,7 @@ const payloads = require('../const/constants_payload');
 const action = require('../const/constants_action');
 const sleep = require('./sleepMessenger');
 const urls = require('../const/constants_url');
+const ResMS = require('./responseMessenger');
 
 
 module.exports = {
@@ -14,19 +14,24 @@ module.exports = {
 		console.log('responseMessenger.verifyMyCity...');
 		if(response && response.result && response.result.parameters) {
 			var city = response.result.parameters['geo-city'];
-			if(city && CITY.get(city)) {
-				MS.textMessage(senderId, CITY.get(city)[Math.floor(Math.random()*map.get(city).length)]);
-				sleep.sleepTextMessage(senderId, 'Se quiser saber sobre outra cidade, é só me informar o nome dela. Ou escolha uma opção do menu, para que eu te ajude com outro assunto.', 1500);
-			} else {
+			if(city && CITY.get(city))
+			 {
+				ResMS.message(senderId, CITY.get(city)[Math.floor(Math.random()*CITY.get(city).length)]);
+				ResMS.optionsNewCities(senderId, "Deseja verificar se outra cidade já implantou a Lei de Metas, ou vamos mudar de assunto?");
+			 }
+			else
+			 {
 				var city = response.result.parameters['geo-city'];
-				var text = 'Infelizmente, ainda não foi implantada a Lei de Metas em ' + city;
-				MS.textMessage(senderId, text);
-				sleep.sleepTextMessage(senderId, 'Mas não se esqueça que a participação popular é muito importante para que o prefeito de sua cidade implante a Lei de Metas ;)', 1500);
-			}
+				var text = 'Infelizmente, ainda não foi implantada a Lei de Metas em ' + city + '. Mobilize sua comunidade para pedir que a prefeitura da sua cidade implante a Lei de Metas.';
+				ResMS.message(senderId, text);
+				ResMS.optionsNewCities(senderId, "Deseja verificar se outra cidade já implantou a Lei de Metas, ou vamos mudar de assunto?");
+			 }
 		} else {
-			MS.textMessage(senderId, 'Desculpe, não entendi o nome de sua cidade =/');
+			ResMS.message(senderId, 'Desculpe, não entendi o nome de sua cidade =/');
+			ResMS.optionsNewCities(senderId, "Deseja verificar novamente, ou vamos mudar de assunto?");
 		}
 	},
+
 
 	verifyDistrict(senderId, data, callback) {
 		if(data) {

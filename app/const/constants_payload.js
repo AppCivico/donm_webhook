@@ -65,7 +65,17 @@ module.exports = {
     PBK_OTHER_PROJECT: 'click_other_project',
     PBK_PROJECT_SEARCH_GOALS: 'click_project_search_goals',
 
-    PBK_CURRENT_MANAGEMENT: 'click_current_management'
+    //Plano de Metas da Gestão Atual
+    PBK_CURRENT_MANAGEMENT: 'click_current_management',
+    //Plano de Metas da Gestão Passada -> Projetos
+    PBK_CURRENT_PROJECT: 'click_current_project',
+    PBK_CURRENT_MANAGEMENT_PROJECT_SELECTED: 'click_management_current_project_selected',
+    
+    PBK_CURRENT_PROJETCT_SCENARIO: 'click_current_project_scenario',
+    PBK_CURRENT_PROJECT_EXPECTED_RESULTS: 'click_current_project_expected_results',
+    PBK_CURRENT_PROJECT_GOALS_ASSOCIATION: 'click_current_project_goals_association',
+    PBK_CURRENT_PROJECT_ACTIONS_LINE: 'click_current_project_actions_line'
+
 
 
 };

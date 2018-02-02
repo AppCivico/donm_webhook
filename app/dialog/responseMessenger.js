@@ -24,23 +24,24 @@ module.exports = {
 		console.log('responseMessenger.presentFirstDialogOptions...');
 		var quickReplices = [
 	        MS.genericQuicKRepliesText(payloads.PBK_PAST_MANAGEMENT, 'Gestão passada'),
+	        MS.genericQuicKRepliesText(payloads.PBK_CURRENT_MANAGEMENT, 'Gestão atual'),
 	        MS.genericQuicKRepliesText(payloads.PBK_KNOW, 'Conhecer lei'),
 	    ];
 
-		var text = "Você gostaria de conhecer melhor como a Lei de Metas funciona, ou prefere ver como ficou o Plano de Metas da gestão passada (2013/2016)?";
+		var text = "Você gostaria de conhecer melhor como a Lei de Metas funciona, ou prefere conhecer o Plano de Metas da Atual Gestão, ou da Gestão Passada?";
 	    sleep.sleepQuickReplices(senderId, quickReplices, text, 1600);
 	},
 
-	restartDialogs(senderId) {
+	restartDialogs(senderId, text) {
 		console.log('responseMessenger.restartDialogs...');
 
 		var quickReplices = [
 	        MS.genericQuicKRepliesText(payloads.PBK_PAST_MANAGEMENT, 'Gestão passada'),
+	        MS.genericQuicKRepliesText(payloads.PBK_CURRENT_MANAGEMENT, 'Gestão atual'),
 	        MS.genericQuicKRepliesText(payloads.PBK_KNOW, 'Conhecer lei'),
 	    ];
 
-		var text = "Ok, você gostaria de ver como ficou o Plano de Metas de 2013 ou conhecer mais sobre a Lei de Metas?";
-	    sleep.sleepQuickReplices(senderId, quickReplices, text, 1800);
+	    sleep.sleepQuickReplices(senderId, quickReplices, text, 2000);
 	},
 
 	restartDialogsKnow(senderId) {
@@ -82,6 +83,7 @@ module.exports = {
 			if(city && CITY.get(city)) {
 				MS.textMessage(senderId, CITY.get(city)[Math.floor(Math.random()*CITY.get(city).length)]);
 				sleep.sleepTextMessage(senderId, 'Se quiser saber sobre outra cidade, é só me informar o nome dela. Ou escolha uma opção do menu, para que eu te ajude com outro assunto.', 1500);
+				
 			} else {
 				var city = response.result.parameters['geo-city'];
 				var text = 'Infelizmente, ainda não foi implantada a Lei de Metas em ' + city;
@@ -262,6 +264,26 @@ module.exports = {
 	    sleep.sleepQuickReplices(senderId, quickReplices, text, 1800);
 	},
 
+	optionsCurrentManagement(senderId) {
+		console.log('responseMessenger.optionsCurrentManagement...');
+		var quickReplices = [
+	        MS.genericQuicKRepliesText(payloads.PBK_CURRENT_PROJECT, 'Conhecer projetos')
+	    ];
+
+	    sleep.sleepQuickReplices(senderId, quickReplices, 'Você gostaria de conhecer os projetos previstos para a cidade de São Paulo?', 1800);
+	},
+
+	optionsCurrentManagementSearchFailure(senderId, text) {
+		console.log('responseMessenger.optionsCurrentManagementSearchFailure...');
+		var quickReplices = [
+	        MS.genericQuicKRepliesText(payloads.PBK_CURRENT_PROJECT, 'Ver Projetos'),
+	        MS.genericQuicKRepliesText(payloads.PBK_RESTART_DIALOGS, 'Outro assunto!'),
+	    ];
+
+	    sleep.sleepQuickReplices(senderId, quickReplices, text, 1800);
+	},
+
+
 	responseAddressProject(senderId, project, res) {
 		console.log('responseMessenger.responseAddressProject...');
 		//Monta texto com endereço do projeto
@@ -354,10 +376,45 @@ module.exports = {
 	    	MS.genericQuicKRepliesText(payloads.PBK_GOAL_OF_PROJECT, 'Conhecer meta'),
 	    	//MS.genericQuicKRepliesText(payloads.PBK_FOLLOW_PROJECT, 'Seguir projeto'),
 	    	//MS.genericQuicKRepliesText(payloads.PBK_PROJECTS_OF_GOAL, 'Conhecer melhor'),
-	    	MS.genericQuicKRepliesText(payloads.PBK_OTHER_PROJECT, 'Ver outro projeto'),
-	    	MS.genericQuicKRepliesText(payloads.PBK_OTHER_GOAL, 'Conhecer metas')
+	    	MS.genericQuicKRepliesText(payloads.PBK_PAST_PROJECT, 'Ver outro projeto'),
+	    	MS.genericQuicKRepliesText(payloads.PBK_PAST_GOAL, 'Conhecer metas')
 	    ];
 		sleep.sleepQuickReplices(senderId, quickReplices, introductory_text, 2200);
+	},
+
+	optionsCurrentManagementProject(senderId, project, introductory_text) {
+		console.log('responseMessenger.optionsCurrentManagementProject...');
+	    var quickReplices = [
+	    	MS.genericQuicKRepliesText(payloads.PBK_CURRENT_PROJETCT_SCENARIO, 'Situação atual'),
+	    	MS.genericQuicKRepliesText(payloads.PBK_CURRENT_PROJECT_EXPECTED_RESULTS, 'Resultados esperados'),
+	    	MS.genericQuicKRepliesText(payloads.PBK_CURRENT_PROJECT_ACTIONS_LINE, 'Linhas de Ação'),
+	    	MS.genericQuicKRepliesText(payloads.PBK_CURRENT_PROJECT_GOALS_ASSOCIATION, 'Metas'),
+	    ];
+		sleep.sleepQuickReplices(senderId, quickReplices, introductory_text, 2200);
+	},
+
+
+	optionsCurrentManagementProjectRestart(senderId, project, introductory_text, value) {
+		console.log('responseMessenger.optionsCurrentManagementProjectRestart...');
+
+		var quickReplices = [MS.genericQuicKRepliesText(payloads.PBK_RESTART_DIALOGS, 'Mudar assunto!')];
+
+		if (value !== payloads.PBK_CURRENT_PROJETCT_SCENARIO) quickReplices.push(MS.genericQuicKRepliesText(payloads.PBK_CURRENT_PROJETCT_SCENARIO, 'Situação atual'));
+		if (value !== payloads.PBK_CURRENT_PROJECT_EXPECTED_RESULTS) quickReplices.push(MS.genericQuicKRepliesText(payloads.PBK_CURRENT_PROJECT_EXPECTED_RESULTS, 'Resultados esperados'));
+		if (value !== payloads.PBK_CURRENT_PROJECT_ACTIONS_LINE) quickReplices.push(MS.genericQuicKRepliesText(payloads.PBK_CURRENT_PROJECT_ACTIONS_LINE, 'Linhas de Ação'));
+		if (value !== payloads.PBK_CURRENT_PROJECT_GOALS_ASSOCIATION) quickReplices.push(MS.genericQuicKRepliesText(payloads.PBK_CURRENT_PROJECT_GOALS_ASSOCIATION, 'Metas'));
+
+		sleep.sleepQuickReplices(senderId, quickReplices, introductory_text, 2200);
+	},
+
+
+	optionsNewCities(senderId, introductory_text) {
+		console.log('responseMessenger.optionsNewCities...');
+		var quickReplices = [
+	        MS.genericQuicKRepliesText(payloads.PBK_MY_CITY, 'Verificar cidade'),
+	        MS.genericQuicKRepliesText(payloads.PBK_RESTART_DIALOGS, 'Mudar de assunto'),
+	    ];
+	    sleep.sleepQuickReplices(senderId, quickReplices, introductory_text, 2200);
 	},
 
 }

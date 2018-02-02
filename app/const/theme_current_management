@@ -7,5 +7,4 @@ const map = new HashMap();
 	map.set(4, "Desenvolvimento Institucional");
 	map.set(5, "Desenvolvimento Econômico E Gestão");
 
-
 module.exports = map;

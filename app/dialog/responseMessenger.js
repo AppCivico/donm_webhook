@@ -133,11 +133,10 @@ module.exports = {
 		}
 	},
 
-	responseLinkDonm(senderId) {
+	responseLinkDonm(senderId, text) {
 		console.log('responseMessenger.responseLinkDonm...');
-		var text = 'Logo poderei te ajudar a acompanhar as metas, mas por enquanto você pode ver como as metas da gestão passada ficaram';
 		sleep.sleepTextMessage(senderId, text, 1600);
-		sleep.sleepTextMessage(senderId, 'deolhonasmetas.org.br/', 2000);
+		//sleep.sleepTextMessage(senderId, 'deolhonasmetas.org.br/', 2000);
 	},
 
 	menuAboutLaw(senderId, response) {

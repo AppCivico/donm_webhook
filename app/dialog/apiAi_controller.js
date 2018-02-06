@@ -77,7 +77,9 @@ module.exports = {
 		    case actions.ACTION_ACCOUNTABILITY:
 				console.log('## apiAi_controller.optionsActionsApiAi - ACTION_ACCOUNTABILITY'); //OK
 		    	ResMS.responseMessage(senderId, response);
-		    	ResMS.responseLinkDonm(senderId);
+		    	//var text = 'Logo poderei te ajudar a acompanhar as metas, mas por enquanto você pode ver como as metas da gestão passada ficaram';
+		    	var text = 'Você pode acompanhar as metas de São Paulo, pelo \n deolhonasmetas.org.br/ \n e também pode ver as metas da gestão passada em: \n http://2013.deolhonasmetas.org.br';
+		    	ResMS.responseLinkDonm(senderId, text);
 		    	ResMS.optionsObligationTargetLawMore(senderId, actions.ACTION_ACCOUNTABILITY);		    	
 		    	break;
 		    //Usuário perguntou "O que são audiências públicas?"
@@ -247,7 +249,6 @@ module.exports = {
 		}
 
 	},
-
 }
 
 

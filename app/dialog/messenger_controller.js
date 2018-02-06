@@ -149,7 +149,7 @@ module.exports = {
             //Fluxo "Conhecer Gestão passada" -> Metas
             case payloads.PBK_PAST_GOAL:
                 console.log("## PBK_PAST_GOAL -> Conhecer as metas da gestão passada"); //OK
-                api_ai.sendApiAi(senderId, 'Conhecer as metas', 'botcube_co');
+                api_ai.sendApiAi(senderId, 'Conhecer as metas da gestão passada', 'botcube_co');
                 break;
 
             //Usuário clicou em projetos da meta que ele esta visualizando
@@ -210,8 +210,8 @@ module.exports = {
             //** PROJETOS **//
             //Conhecer os projetos da gestão passada
             case payloads.PBK_PAST_PROJECT:
-                console.log("## PBK_PAST_PROJECT -> Conhecer os projetos"); //OK
-                api_ai.sendApiAi(senderId, 'Conhecer os projetos', 'botcube_co');
+                console.log("## PBK_PAST_PROJECT -> Conhecer os projetos da gestão passada"); //OK
+                api_ai.sendApiAi(senderId, 'Conhecer os projetos da gestão passada', 'botcube_co');
                 break;
             //usuário clicou em meta desse projeto
             case payloads.PBK_GOAL_OF_PROJECT:
@@ -260,16 +260,8 @@ module.exports = {
                 ResMS.message(senderId, text_intro);
                 net.getPastGoalId(senderId, postback.title, function(error, data) {
                     if(data) {
-                        console.log("Busca de meta por id com sucesso");
-                        console.log("***** GOAL");
-                        //console.log(data);
-                        //console.log("*****");
-
                         mCurrent.set(senderId, data);
-
-                        ResMS.sendMessageDescriptionGoal(senderId, mCurrent.get(senderId).description);
-                        var text = "Caso queira, também posso lhe dar mais informações sobre a meta. Como os projetos que compoẽ ela, o status da execução, o orçamento, ou até mesmo comparar essa meta com outras. O que deseja saber?";
-                        ResMS.optionsPastManagementGoal(senderId, mCurrent.get(senderId), text);
+                        descriptionGoal(senderId, mCurrent);
                     } else {
                         console.log("Erro ao buscar meta por id -> error: ", error);
                     }
@@ -325,8 +317,6 @@ module.exports = {
                 });
                 break;
 
-
-
             //usuário clicou em  projeto
             case payloads.PBK_CURRENT_PROJETCT_SCENARIO:
                 console.log('## PBK_CURRENT_PROJETCT_SCENARIO -> apiAi_controller.optionsActionsApiAi'); //OK
@@ -372,7 +362,7 @@ module.exports = {
                     var description = createMessageCurrentProjectGoalsAssociation(mCurrent.get(senderId));
                     ResMS.message(senderId, description);
                     var text = "O que mais você gostaria de saber?";
-                    ResMS.optionsCurrentManagementProjectRestart(senderId, mCurrent.get(senderId), text, PBK_CURRENT_PROJECT_GOALS_ASSOCIATION);
+                    ResMS.optionsCurrentManagementProjectRestart(senderId, mCurrent.get(senderId), text, payloads.PBK_CURRENT_PROJECT_GOALS_ASSOCIATION);
                 } else {
                     console.log("Não encontrou o projeto");
                     ResMS.message(senderId, "Desculpe, houve alguma confusão aqui, não consigo identificar o projeto. Vou precisar colher as informações novamente.");
@@ -439,6 +429,17 @@ function descriptionProjetct(senderId, project) {
         var text = "Caso queira, também posso lhe dar mais informações sobre o projeto. Como status da execução, o orçamento, ou até mesmo comparar esse projeto com outras. O que deseja saber?";
         ResMS.optionsPastManagementProject(senderId, project, text);
     }
+}
+
+function descriptionGoal(senderId, mCurrent) {
+    if(mCurrent.get(senderId).description.length > 639) {
+        let text = mCurrent.get(senderId).description.substring(0, 636).concat("...");
+        ResMS.sendMessageDescriptionGoal(senderId, text);
+    } else {
+        ResMS.sendMessageDescriptionGoal(senderId, mCurrent.get(senderId).description);
+    }
+    var text = "Caso queira, também posso lhe dar mais informações sobre a meta. Como os projetos que compoẽ ela, o status da execução, o orçamento, ou até mesmo comparar essa meta com outras. O que deseja saber?";
+    ResMS.optionsPastManagementGoal(senderId, mCurrent.get(senderId), text);
 }
 
 

@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 // Webserver parameter
-const PORT = process.env.PORT;
+const PORT = 3000;//process.env.PORT;
 
 // Starting our webserver and putting it all together
 app.set('port', PORT);

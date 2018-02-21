@@ -53,10 +53,10 @@ module.exports = {
 	    var more = [MS.genericButtonLink(urls.URL_ABOUT, 'Saber mais')];
 
 	    var elements = [
-	        MS.genericElements('Obrigações', 'Entenda as obrigações da prefeitura', obligation_btn, 'http://www.carreiradoadvogado.com.br/wp-content/uploads/2017/04/Retroatividade_e_irretroatividade_da_lei_penal_afinal_o_que_%C3%A9_isso.jpg-800x534.jpeg'),
-	        MS.genericElements('Participação Popular', 'Entenda como colaborar com o Plano de Metas', participation_btn, 'http://cspb.org.br/UserFiles/Image/participacao-popular(1).png'),
-	        MS.genericElements('Cidades que aderiram', 'Conhece as cidades que aderiram a Lei de Metas?', cities_btn, 'http://lounge.obviousmag.org/arquitexturas_musicais_e_a_vida/sao-paulo42.jpg'),
-	        MS.genericElements('Conhecer mais', 'Conhecer mais a fundo a lei de metas', more, 'http://e-tinet.com/wp-content/uploads/2009/09/Linux-10-gerenciadores-de-arquivos-que-devemos-conhecer.jpeg')
+	        MS.genericElements('Obrigações', 'Entenda as obrigações da prefeitura', obligation_btn, urls.URL_OBLIGATION_IMG),
+	        MS.genericElements('Participação Popular', 'Entenda como colaborar com o Plano de Metas', participation_btn, urls.URL_PARTICIPATIN_IMG),
+	        MS.genericElements('Cidades que aderiram', 'Conhece as cidades que aderiram a Lei de Metas?', cities_btn, urls.URL_CITIES_IMG),
+	        MS.genericElements('Conhecer mais', 'Conhecer mais a fundo a lei de metas', more, urls.URL_MORE_IMG)
 	    ];
 
 		sleep.sleepTextMessage(senderId, 'Ótimo, sobre qual assunto quer conversar?', 2000);
@@ -147,10 +147,10 @@ module.exports = {
 	    var more = [MS.genericButtonLink(urls.URL_ABOUT, 'Saber mais')];
 
 	    var elements = [
-	        MS.genericElements('Obrigações', 'Entenda as obrigações da prefeitura', obligation_btn, 'http://www.carreiradoadvogado.com.br/wp-content/uploads/2017/04/Retroatividade_e_irretroatividade_da_lei_penal_afinal_o_que_%C3%A9_isso.jpg-800x534.jpeg'),
-	        MS.genericElements('Participação Popular', 'Entenda como colaborar com o Plano de Metas', participation_btn, 'http://cspb.org.br/UserFiles/Image/participacao-popular(1).png'),
-	        MS.genericElements('Cidades que aderiram', 'Conhece as cidades que aderiram a Lei de Metas?', cities_btn, 'http://lounge.obviousmag.org/arquitexturas_musicais_e_a_vida/sao-paulo42.jpg'),
-	        MS.genericElements('Conhecer mais', 'Conhecer mais a fundo a lei de metas', more, 'http://e-tinet.com/wp-content/uploads/2009/09/Linux-10-gerenciadores-de-arquivos-que-devemos-conhecer.jpeg')
+	        MS.genericElements('Obrigações', 'Entenda as obrigações da prefeitura', obligation_btn, urls.URL_OBLIGATION_IMG),
+	        MS.genericElements('Participação Popular', 'Entenda como colaborar com o Plano de Metas', participation_btn, urls.URL_PARTICIPATIN_IMG),
+	        MS.genericElements('Cidades que aderiram', 'Conhece as cidades que aderiram a Lei de Metas?', cities_btn, urls.URL_CITIES_IMG),
+	        MS.genericElements('Conhecer mais', 'Conhecer mais a fundo a lei de metas', more, urls.URL_MORE_IMG)
 	    ];
 
 		sleep.sleepTextMessage(senderId, 'Veja mais sobre a Lei de Metas:', 2000);
@@ -215,8 +215,8 @@ module.exports = {
 	    var button2 = [MS.genericButtonLink(urls.URL_ALL_CITIES, 'Conhecer')];
 
 	    var elements = [
-	        MS.genericElements('E minha cidade?', 'Descubra se sua cidade já implantou a lei de metas?', button1, 'http://img.freepik.com/vetores-gratis/travel-road-street-map-with-location-pin-simbolo-ilustracao-vetorial_1284-2005.jpg'),
-	        MS.genericElements('Todas cidades', 'Conheça todas as cidades que implantaram a lei de metas.', button2, 'https://previews.123rf.com/images/denispc/denispc1303/denispc130300037/18452620-Map-of-Brazil-with-all-capitals-Cities-of-Brazil--Stock-Photo.jpg'),
+	        MS.genericElements('E minha cidade?', 'Descubra se sua cidade já implantou a lei de metas?', button1, urls.URL_MY_CITY),
+	        MS.genericElements('Todas cidades', 'Conheça todas as cidades que implantaram a lei de metas.', button2, urls.URL_ALL_CITIES),
 	    ];
 
 	    sleep.sleepTextMessage(senderId, 'Você gostaria de saber:', 1600);

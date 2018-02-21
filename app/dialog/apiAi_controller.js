@@ -264,7 +264,7 @@ function createCardsGoals(data) {
                 "Meta ".concat(goal.goal_number), 
                 goal.name, 
                 [MS.genericButtonPostback(payloads.PBK_GOAL_SELECTED, goal.goal_number)], 
-                'http://blog.vejaobra.com.br/wp-content/uploads/2017/01/conteudo-avancado-diario-de-obra-por-que-manter-o-historico-de-execucao-do-projeto-1280x640.jpeg'
+                urls.URL_PROJECTS_IMG
 	        )
 	    );
     });
@@ -282,7 +282,7 @@ function createCardsProjects(data) {
                 "Projeto ".concat(project.project_number), 
                 project.name, 
                 [MS.genericButtonPostback(payloads.PBK_PROJECT_SELECTED, project.id)], 
-                'http://blog.vejaobra.com.br/wp-content/uploads/2017/01/conteudo-avancado-diario-de-obra-por-que-manter-o-historico-de-execucao-do-projeto-1280x640.jpeg'
+                urls.URL_PROJECTS_IMG
 	        )
 	    );
     });
@@ -300,7 +300,7 @@ function createCardsCurrentsProjects(projects) {
                 "Projeto ".concat(project.id), 
                 project.title, 
                 [MS.genericButtonPostback(payloads.PBK_CURRENT_MANAGEMENT_PROJECT_SELECTED, project.id)], 
-                'http://blog.vejaobra.com.br/wp-content/uploads/2017/01/conteudo-avancado-diario-de-obra-por-que-manter-o-historico-de-execucao-do-projeto-1280x640.jpeg'
+                urls.URL_PROJECTS_IMG
 	        )
 	    );
     });

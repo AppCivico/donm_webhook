@@ -50,7 +50,7 @@ module.exports = {
             case payloads.PBK_START:
                 console.log("## PBK_START -> olá "); //OK
                 //Criando menu persistente
-                MS.fluxo_2_Persistent_menu();
+                MS.fluxo_3_Persistent_menu();
                 //Capturando dados do usuário
                 net.solicitationFacebookUserInfo(senderId, callback);
                 //enviano mensagem para API.AI interpretar

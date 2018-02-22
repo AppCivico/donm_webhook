@@ -352,6 +352,81 @@ module.exports = {
 			]
 		};
 		createMenuPersistent(messageData);
+	},
+
+	fluxo_3_Persistent_menu() {
+
+		var messageData = {
+			persistent_menu:[
+			    {
+			     	locale:"default",
+			    	composer_input_disabled:"false",
+			    	call_to_actions:[
+			        	{
+							title:"Sobre a Lei de Metas",
+							type:"nested",
+							call_to_actions:[
+								{
+					              title:"Obrigações da Prefeitura",
+					              type:"postback",
+					              payload: payloads.PBK_OBLIGATION_INFO
+					            },
+						    	{
+					              title:"Cidades que aderiram",
+					              type:"postback",
+					              payload: payloads.PBK_CITIES_INFO
+					            },
+					        	{
+						          type:"web_url",
+						          title:"Mais informações",
+						          url: urls.URL_ABOUT,
+						          webview_height_ratio:"full"
+						        }
+							]
+			        	},
+						{
+							title:"Planos de meta",
+							type:"nested",
+							call_to_actions:[
+								{
+					              title:"Gestão passada",
+								  type:"postback",
+								  payload: payloads.PBK_PAST_MANAGEMENT
+					            },
+						    	{
+					              title:"Gestão atual",
+					              type:"postback",
+					              payload: payloads.PBK_CURRENT_MANAGEMENT
+					            },
+							]
+						},
+						{
+			        		title:"Saber mais",
+							type:"nested",
+							call_to_actions:[
+						    	{
+						    	  title:"Gestão passada",
+					              type:"web_url",
+						          url: urls.URL_DONM_2013,
+						          webview_height_ratio:"full"
+					            },
+					    		{
+					              type:"web_url",
+						          title:"Gestão atual",
+						          url: urls.URL_DONM_2017,
+						          webview_height_ratio:"full"
+					            }
+							]
+			        	}
+			      	]
+			    },
+		    	{
+		      		locale:"zh_CN",
+		      		composer_input_disabled:"false"
+		    	}
+			]
+		};
+		createMenuPersistent(messageData);
 	}
 
 };

@@ -1,29 +1,41 @@
-# README #
+## Esta documentação está sendo aprimorada
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### Subindo em ambiente de desenvolvimento
 
-### What is this repository for? ###
+Instale os helpers
+> npm install -g sequelize-cli nodemon dotenv
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Instale as dependências
+> npm install
 
-### How do I get set up? ###
+Efetue as migrations do Sequelize
+> sequelize db:migrate --env
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+Inicie a aplicação
+> npm run start:dev
 
-### Contribution guidelines ###
+### Subindo em ambiente de produção (com docker)
 
-* Writing tests
-* Code review
-* Other guidelines
+Crie o banco de dados
 
-### Who do I talk to? ###
+    $ createdb -h localhost -U postgres bot_donm_prod
 
-* Repo owner or admin
-* Other community or team contact
+Configure os arquivos:
+
+    $ cp example.env .env 
+    $ $EDITOR .env
+    $ $EDITOR app/server/schema/config/config.json
+  
+Construa o container
+
+    $ ./build-container.sh
+
+Inicie o container
+
+    $ cp sample-run-container.sh run-container.sh
+    $ $EDITOR run-container.sh
+    $ ./run-container.sh
+
+### Agent 
+
+O Agente e seus entidades e intenções de diálogo encontra-se no diretório /agent
